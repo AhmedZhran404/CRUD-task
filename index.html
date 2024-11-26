@@ -15,20 +15,20 @@
     <!-- ========== End Google Font ========== -->
 
     <!-- ========== Start Font Awesome ========== -->
-    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./CSS/all.min.css" />
     <!-- ========== End Font Awesome ========== -->
 
     <!-- ========== Start Bootstrap Css ========== -->
-    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./CSS/bootstrap.min.css" />
     <!-- ========== End Bootstrap Css ========== -->
 
     <!-- ========== Start Main Css ========== -->
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./CSS/main.css" />
     <!-- ========== End Main Css ========== -->
   </head>
   <body>
     <main class="py-5">
-      <section>
+      <section class="">
         <div class="container">
           <div class="bookmark-content">
             <div class="title d-flex justify-content-center">
@@ -41,38 +41,34 @@
             </p>
             <div>
               <div class="mb-4">
-                <label for="siteNameInput" class="form-label fw-600 main-color">
+                <label for="bookmarkName" class="form-label fw-600 main-color">
                   <i class="fa-solid fa-book-bookmark pe-2"></i>
                   <span>Site Name</span>
                 </label>
                 <input
-                  oninput="validateSiteName()"
+                  oninput="validationInputs(this)"
                   type="text"
                   class="form-control"
-                  id="siteNameInput"
+                  id="bookmarkName"
                   placeholder="Bookmark Name"
                 />
               </div>
               <div class="mb-3">
-                <label for="siteUrlInput" class="form-label fw-600 main-color">
+                <label for="bookmarkUrl" class="form-label fw-600 main-color">
                   <i class="fa-solid fa-link pe-2"></i>
                   <span>Site URL </span>
                 </label>
                 <input
-                  oninput="validateSiteUrl()"
+                  oninput="validationInputs(this)"
                   type="url"
                   class="form-control"
-                  id="siteUrlInput"
+                  id="bookmarkUrl"
                   placeholder="Website Url"
                 />
               </div>
             </div>
-            <div class="sumbmit text-center">
-              <button
-                onclick="addBookmark()"
-                class="btn btn-danger px-5 mt-2"
-                id="submitButton"
-              >
+            <div onclick="addBookmarker()" class="sumbmit text-center">
+              <button class="btn btn-danger px-5 mt-2" id="submitInfo">
                 Submit
               </button>
             </div>
@@ -91,13 +87,13 @@
                 <th scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody id="bookmarkTableBody"></tbody>
+            <tbody id="tBodyContent"></tbody>
           </table>
         </div>
       </section>
     </main>
 
-    <div id="validationModal" class="popup hidden">
+    <div id="validationPopup" class="popup hidden">
       <div
         class="popup-header d-flex justify-content-between align-items-center mb-3"
       >
@@ -115,33 +111,39 @@
             style="width: 20px; height: 20px"
           ></li>
         </ul>
-        <button id="closeModal" class="close-btn">
+        <button id="closePopup" class="close-btn">
           <i class="fa-solid fa-xmark close fs-3"></i>
         </button>
       </div>
       <div class="popup-content">
         <p class="h5 mb-3">
-          Site Name or Url is not valid, Please follow the rules below:
+          Site Name or Url is not valid, Please follow the rules below :
         </p>
         <ul class="list-unstyled m-0">
           <li class="h6 fw-normal d-flex align-items-baseline">
             <i class="fa-regular fa-circle-right p-2 text-danger"></i>
-            <p>Site name must contain at least 3 characters</p>
+            <p>
+              Please enter a valid string. The input should start with at least
+              three alphanumeric characters (letters or digits).
+            </p>
           </li>
           <li class="h6 fw-normal d-flex align-items-baseline">
             <i class="fa-regular fa-circle-right p-2 text-danger"></i>
-            <p>Site name must contain at least 3 characters</p>
+            <p>
+              Please enter a valid URL or domain name. The input may optionally
+              start with "https://", ex. (e.g., .com, .org, .net).
+            </p>
           </li>
         </ul>
       </div>
     </div>
 
-    <!-- ========== Start Bootstrap Js ========== -->
-    <script src="./js/bootstrap.bundle.js"></script>
-    <!-- ========== End Bootstrap Js ========== -->
+    <!-- ========== Start Bootstrao Js ========== -->
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+    <!-- ========== End Bootstrao Js ========== -->
 
     <!-- ========== Start Main Js ========== -->
-    <script src="./js/index.js"></script>
+    <script src="./JS/index.js"></script>
     <!-- ========== End Main Js ========== -->
   </body>
 </html>

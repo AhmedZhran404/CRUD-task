@@ -1,142 +1,133 @@
 
-var siteNameInput = document.getElementById("siteNameInput");
-var siteUrlInput = document.getElementById("siteUrlInput");
+var bookmarkNameInput = document.getElementById("bookmarkName");
+var bookmarkUrlInput = document.getElementById("bookmarkUrl");
 
+bookmarkerList = [];
 
-var bookmarkList = [];
-
-if (localStorage.getItem("BookmarkData") !== null) {
-  bookmarkList = JSON.parse(localStorage.getItem("BookmarkData"));
+if (localStorage.getItem("BookmarkerContainer") !== null) {
+  bookmarkerList = JSON.parse(localStorage.getItem("BookmarkerContainer"));
 }
-renderBookmarks();
+displayBookmarker();
 
-function addBookmark() {
-  if (validateSiteName() && validateSiteUrl()) {
-    var bookmark = {
-      name: siteNameInput.value,
-      url: siteUrlInput.value,
+// Function To Add
+function addBookmarker() {
+  if (
+    validationInputs(bookmarkNameInput) &&
+    validationInputs(bookmarkUrlInput)
+  ) {
+    var bookMarker = {
+      name: bookmarkNameInput.value,
+      url: bookmarkUrlInput.value,
     };
-    bookmarkList.push(bookmark);
-    localStorage.setItem("BookmarkData", JSON.stringify(bookmarkList));
-    renderBookmarks();
-    clearInputs();
+    bookmarkerList.push(bookMarker);
+    localStorage.setItem("BookmarkerContainer", JSON.stringify(bookmarkerList));
+    displayBookmarker();
+    clearBookmarker();
   }
 }
 
-function clearInputs() {
-  siteNameInput.value = "";
-  siteUrlInput.value = "";
+// Function To Clear
+function clearBookmarker() {
+  bookmarkNameInput.value = null;
+  bookmarkUrlInput.value = null;
+
+  bookmarkNameInput.classList.remove("valid-input");
+  bookmarkUrlInput.classList.remove("valid-input");
 }
 
+// Function To Display
+function displayBookmarker() {
+  var bookmarkerTable = "";
 
-function renderBookmarks() {
-  var bookmarkTableContent = "";
-
-  for (var i = 0; i < bookmarkList.length; i++) {
-    bookmarkTableContent += `<tr>
+  for (var i = 0; i < bookmarkerList.length; i++) {
+    bookmarkerTable += `<tr>
                 <th scope="row">${i + 1}</th>
-                <td>${bookmarkList[i].name}</td>
+                <td>${bookmarkerList[i].name}</td>
                 <td>
-                  <button type="button" class="btn btn-success">
+                  <button type="button" id="btnVisit" class="btn btn-success">
                     <a class="text-white text-decoration-none" target="_blank" href="${
-                      bookmarkList[i].url
+                      bookmarkerList[i].url
                     }">
                     <i class="fa-regular fa-eye me-1"></i> Visit
                     </a>
                   </button>
                 </td>
                 <td>
-                  <button onclick="deleteBookmark(${i})" type="button" class="btn btn-danger">
+                  <button onclick="deleteBookmarker(${i})" type="button" id="btnDelete" class="btn btn-danger">
                     <i class="fa-solid fa-trash-can me-1"></i>
                     Delete
                   </button>
                 </td>
               </tr>`;
   }
-  document.getElementById("bookmarkTableBody").innerHTML = bookmarkTableContent;
+  document.getElementById("tBodyContent").innerHTML = bookmarkerTable;
+}
+
+// Function To Delete
+function deleteBookmarker(index) {
+  bookmarkerList.splice(index, 1);
+  localStorage.setItem("BookmarkerContainer", JSON.stringify(bookmarkerList));
+  displayBookmarker();
 }
 
 
-function deleteBookmark(index) {
-  bookmarkList.splice(index, 1);
-  localStorage.setItem("BookmarkData", JSON.stringify(bookmarkList));
-  renderBookmarks();
-}
+// Validation Inputs
 
+function validationInputs(element) {
+  var regex = {
+    bookmarkName:
+      /^[a-zA-Z0-9]{3,}([-_][a-zA-Z0-9]{3,})*(\s[a-zA-Z0-9]{3,}([-_][a-zA-Z0-9]{3,})*)?$/,
+    bookmarkUrl: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
+  };
+  var text = element.value;
 
-
-function validateSiteName() {
-
-    var regex = /^[a-zA-Z0-9 ]{3,}$/;  
-    var text = siteNameInput.value;
-  
-    if (regex.test(text)) {
-      siteNameInput.classList.add("valid-input");
-      siteNameInput.classList.remove("invalid-input");
-      siteNameInput.classList.add("is-valid");
-      siteNameInput.classList.remove("is-invalid");
-      return true;
-    } else {
-      siteNameInput.classList.add("invalid-input");
-      siteNameInput.classList.remove("valid-input");
-      siteNameInput.classList.add("is-invalid");
-      siteNameInput.classList.remove("is-valid");
-      return false;
-    }
-  }
-  
-
-
-
-
-function validateSiteUrl() {
-  var regex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
-  var text = siteUrlInput.value;
-
-  if (regex.test(text)) {
-    siteUrlInput.classList.add("valid-input");
-    siteUrlInput.classList.remove("invalid-input");
-    siteUrlInput.classList.add("is-valid");
-    siteUrlInput.classList.remove("is-invalid");
+  if (regex[element.id].test(text)) {
+    element.classList.add("valid-input");
+    element.classList.remove("invalid-input");
+    element.classList.add("is-valid");
+    element.classList.remove("is-invalid");
     return true;
   } else {
-    siteUrlInput.classList.add("invalid-input");
-    siteUrlInput.classList.remove("valid-input");
-    siteUrlInput.classList.add("is-invalid");
-    siteUrlInput.classList.remove("is-valid");
+    element.classList.add("invalid-input");
+    element.classList.remove("valid-input");
+    element.classList.add("is-invalid");
+    element.classList.remove("is-valid");
     return false;
   }
 }
 
 
-var validationPopup = document.getElementById("validationModal");
-var closePopupButton = document.getElementById("closeModal");
+//^ Popup Validation
 
+var popup = document.getElementById("validationPopup");
+var closePopup = document.getElementById("closePopup"); // Input field for URL validation
 
-function showValidationPopup() {
-  validationPopup.classList.remove("hidden");
+// Function to show the popup
+
+function showPopup() {
+  popup.classList.remove("hidden");
 }
 
-
-function hideValidationPopup() {
-  validationPopup.classList.add("hidden");
+// Function to hide the popup
+function hidePopup() {
+  popup.classList.add("hidden");
 }
 
-
-closePopupButton.addEventListener("click", () => {
-  hideValidationPopup();
+// Close popup when clicking the close button
+closePopup.addEventListener("click", () => {
+  hidePopup();
 });
 
-document.getElementById("submitButton").addEventListener("click", (e) => {
-  e.preventDefault(); 
+document.getElementById("submitInfo").addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent form submission
 
-  const isNameValid = validateSiteName(); 
-  const isUrlValid = validateSiteUrl();
+  const isNameValid = validationInputs(bookmarkNameInput); // Validate the site name
+  const isUrlValid = validationInputs(bookmarkUrlInput); // Validate the URL
 
-
+  // Only show the popup if any input is invalid
   if (!isNameValid || !isUrlValid) {
-    showValidationPopup(); 
+    showPopup(); // Show popup if either the site name or URL is invalid
   } else {
-    addBookmark(); 
+    addBookmarker(); // Proceed with adding the bookmark if both are valid
   }
 });
